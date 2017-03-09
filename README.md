@@ -1,5 +1,6 @@
 # TTS Language Editor
 
+- [Building](#building)
 - [Bugs](#bugs)
 - [License Information](#license-information)
 
@@ -7,6 +8,13 @@
 
 This project is a graphical editor for pronunciation dictionaries and language
 rule files for Text-to-Speech applications.
+
+## Building
+
+To build the application, run:
+
+	cmake .
+	make
 
 ## Bugs
 

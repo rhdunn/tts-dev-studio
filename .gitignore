@@ -3,3 +3,15 @@
 *~
 .*.swp
 
+# project files:
+
+*.cbp
+CMakeLists.txt.user
+
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
+
+Makefile
+
+src/tts-lang-editor
