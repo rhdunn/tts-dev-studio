@@ -1,4 +1,4 @@
-# TTS Language Editor
+# TTS Developer Studio
 
 - [Building](#building)
 - [Bugs](#bugs)
@@ -6,8 +6,8 @@
 
 ----------
 
-This project is a graphical editor for pronunciation dictionaries and language
-rule files for Text-to-Speech applications.
+This project is a graphical editor for creating and editing Text-to-Speech
+language and voice files.
 
 ## Building
 
@@ -19,10 +19,10 @@ To build the application, run:
 ## Bugs
 
 Report bugs to the
-[tts-lang-editor issues](https://github.com/espeak-ng/tts-lang-editor/issues)
+[tts-dev-studio issues](https://github.com/espeak-ng/tts-dev-studio/issues)
 page on GitHub.
 
 ## License Information
 
-TTS Language Editor is released under the [GPL version 3](COPYING) or later
+TTS Developer Studio is released under the [GPL version 3](COPYING) or later
 license.
