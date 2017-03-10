@@ -12,6 +12,10 @@ CMakeCache.txt
 cmake_install.cmake
 CMakeFiles/
 
+# build files:
+
 Makefile
+
+*_automoc.cpp
 
 src/tts-dev-studio
