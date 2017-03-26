@@ -1,7 +1,10 @@
 # TTS Developer Studio
 
 - [Dependencies](#dependencies)
+  - [Debian](#debian)
+  - [Windows](#windows)
 - [Building](#building)
+  - [Windows](#windows-1)
 - [Bugs](#bugs)
 - [License Information](#license-information)
 
@@ -18,6 +21,8 @@ In order to build TTS Developer Studio, you need:
 2.  a functional C++ compiler that supports C++11 (e.g. gcc or clang);
 3.  Qt5 Widgets with cmake integration.
 
+### Debian
+
 On Debian-based systems such as Debian, Ubuntu and Mint, these dependencies can
 be installed using the following commands:
 
@@ -27,12 +32,40 @@ be installed using the following commands:
 | c++ compiler  | `sudo apt-get install g++`         |
 | Qt5           | `sudo apt-get install qtbase5-dev` |
 
+### Windows
+
+To build and run the application on Windows, you will need:
+
+1.  Microsoft Visual Studio 2015 build tools (C++, Windows SDK and msbuild);
+2.  cmake;
+3.  Qt 5.7 or later.
+
 ## Building
 
 To build the application, run:
 
 	cmake .
 	make
+
+### Windows
+
+To build the 32-bits application, run:
+
+	set CMAKE_PREFIX_PATH=C:\Qt\5.8\msvc2015\lib\cmake\Qt5
+	cmake -G "Visual Studio 14 2015 Win32" .
+	msbuild /p:Platform=Win32 tts-dev-studio.sln
+
+To build the 64-bits application, run:
+
+	set CMAKE_PREFIX_PATH=C:\Qt\5.8\msvc2015_64\lib\cmake\Qt5
+	cmake -G "Visual Studio 14 2015 Win64" .
+	msbuild /p:Platform=x86 tts-dev-studio.sln
+
+To run tts-dev-studio, you need Qt on the system path. For example, for 64-bit
+builds run:
+
+	set PATH=C:\Qt\5.8\msvc2015_64\bin
+	src\Debug\tts-dev-studio.exe
 
 ## Bugs
 
