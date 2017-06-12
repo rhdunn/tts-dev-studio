@@ -4,7 +4,8 @@
   - [Debian](#debian)
   - [Windows](#windows)
 - [Building](#building)
-  - [Windows](#windows-1)
+  - [Visual Studio](#visual-studio)
+  - [CLion](#clion)
 - [Bugs](#bugs)
 - [License Information](#license-information)
 
@@ -47,7 +48,7 @@ To build the application, run:
 	cmake .
 	make
 
-### Windows
+### Visual Studio
 
 To build the 32-bits application, run:
 
@@ -66,6 +67,19 @@ builds run:
 
 	set PATH=C:\Qt\5.8\msvc2015_64\bin
 	src\Debug\tts-dev-studio.exe
+
+### CLion
+
+In the `File > Settings` dialog, select the `Build, Execution, Deployment > CMake`
+tab and add the following to the `Environment:` field:
+
+	CMAKE_PREFIX_PATH=C:\Qt\5.8\msvc2015
+
+In the `Run > Edit Configurations` dialog, select the `tts-dev-studio` tab, or
+any of the other applications you want to run, and add the following to the
+`Environment variables:` field:
+
+	PATH=%PATH%;C:\Qt\5.8\msvc2015\bin
 
 ## Bugs
 
