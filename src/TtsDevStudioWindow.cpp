@@ -15,19 +15,13 @@
  * along with this program; if not, see: <http://www.gnu.org/licenses/>.
  */
 
-#include <QApplication>
+#include <TtsDevStudioWindow.hpp>
 
-#include "TtsDevStudioWindow.hpp"
-
-int
-main(int argc,
-     char **argv)
+TtsDevStudioWindow::TtsDevStudioWindow()
 {
-	QApplication app(argc, argv);
-	QCoreApplication::setApplicationName("TTS Developer Studio");
-	QCoreApplication::setApplicationVersion("1.0");
+	resize(700, 500);
+}
 
-	TtsDevStudioWindow window;
-	window.show();
-	return app.exec();
+TtsDevStudioWindow::~TtsDevStudioWindow()
+{
 }
