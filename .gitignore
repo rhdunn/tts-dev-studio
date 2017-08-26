@@ -19,3 +19,4 @@ Makefile
 *_automoc.cpp
 
 src/tts-dev-studio
+src/tts-dev-studio_autogen
