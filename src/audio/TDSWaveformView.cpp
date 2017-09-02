@@ -15,17 +15,9 @@
  * along with this program; if not, see: <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TTSDEVSTUDIOWINDOW_HPP
-#define TTSDEVSTUDIOWINDOW_HPP
+#include "TDSWaveformView.hpp"
 
-#include <QMainWindow>
-
-class TtsDevStudioWindow
-	: public QMainWindow
+TDSWaveformView::TDSWaveformView(QWidget *parent)
+	: QWidget(parent)
 {
-	Q_OBJECT;
-public:
-	TtsDevStudioWindow();
-};
-
-#endif
+}

@@ -16,12 +16,12 @@
  */
 
 #include <TtsDevStudioWindow.hpp>
+#include <audio/TDSWaveformView.hpp>
 
 TtsDevStudioWindow::TtsDevStudioWindow()
 {
 	resize(700, 500);
-}
 
-TtsDevStudioWindow::~TtsDevStudioWindow()
-{
+	auto view = new TDSWaveformView(this);
+	setCentralWidget(view);
 }

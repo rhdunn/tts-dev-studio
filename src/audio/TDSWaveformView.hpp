@@ -15,17 +15,17 @@
  * along with this program; if not, see: <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TTSDEVSTUDIOWINDOW_HPP
-#define TTSDEVSTUDIOWINDOW_HPP
+#ifndef AUDIO_TDSWAVEFORMVIEW_HPP
+#define AUDIO_TDSWAVEFORMVIEW_HPP
 
-#include <QMainWindow>
+#include <QWidget>
 
-class TtsDevStudioWindow
-	: public QMainWindow
+class TDSWaveformView
+	: public QWidget
 {
 	Q_OBJECT;
 public:
-	TtsDevStudioWindow();
+	explicit TDSWaveformView(QWidget *parent = nullptr);
 };
 
 #endif
