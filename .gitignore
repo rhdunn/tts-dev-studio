@@ -3,6 +3,8 @@
 *~
 .*.swp
 
+.idea/
+
 # project files:
 
 *.cbp
