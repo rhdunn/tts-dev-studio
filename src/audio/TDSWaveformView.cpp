@@ -20,4 +20,17 @@
 TDSWaveformView::TDSWaveformView(QWidget *parent)
 	: QWidget(parent)
 {
+	setAutoFillBackground(true);
+}
+
+void
+TDSWaveformView::setAudioBuffer(const QAudioBuffer &buffer)
+{
+	this->buffer = buffer;
+}
+
+QAudioBuffer
+TDSWaveformView::audioBuffer() const
+{
+	return buffer;
 }

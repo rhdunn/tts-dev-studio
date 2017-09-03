@@ -15,13 +15,28 @@
  * along with this program; if not, see: <http://www.gnu.org/licenses/>.
  */
 
-#include <TtsDevStudioWindow.hpp>
+#include "TtsDevStudioWindow.hpp"
+
+#include <audio/TDSAudioDecoder.hpp>
 #include <audio/TDSWaveformView.hpp>
 
-TtsDevStudioWindow::TtsDevStudioWindow()
+void
+TtsDevStudioWindow::ondecodefinished()
 {
+	waveformView->setAudioBuffer(decoder->audioBuffer());
+}
+
+TtsDevStudioWindow::TtsDevStudioWindow(const QStringList &arguments)
+	: decoder(new TDSAudioDecoder(this))
+	, waveformView(new TDSWaveformView(this))
+{
+	connect(decoder, SIGNAL(finished()), this, SLOT(ondecodefinished()));
+
 	resize(700, 500);
 
-	auto view = new TDSWaveformView(this);
-	setCentralWidget(view);
+	setCentralWidget(waveformView);
+
+	if (arguments.size() > 1) {
+		decoder->decode(arguments[1]);
+	}
 }

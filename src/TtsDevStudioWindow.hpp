@@ -20,12 +20,25 @@
 
 #include <QMainWindow>
 
+class TDSAudioDecoder;
+class TDSWaveformView;
+
 class TtsDevStudioWindow
 	: public QMainWindow
 {
 	Q_OBJECT;
+
+	TDSAudioDecoder *decoder;
+	TDSWaveformView *waveformView;
+private slots:
+	void
+	ondecodefinished();
 public:
-	TtsDevStudioWindow();
+	TtsDevStudioWindow(const TtsDevStudioWindow &) = delete;
+	TtsDevStudioWindow &operator=(const TtsDevStudioWindow &) = delete;
+
+	explicit
+	TtsDevStudioWindow(const QStringList &arguments);
 };
 
 #endif

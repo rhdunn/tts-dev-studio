@@ -17,15 +17,6 @@
 
 #include "TDSAudioDecoder.hpp"
 
-TDSAudioDecoder::TDSAudioDecoder(QObject *parent)
-	: QObject(parent)
-	, decoder(new QAudioDecoder(this))
-{
-	connect(decoder, SIGNAL(bufferReady()), this, SLOT(onbufferready()));
-	connect(decoder, SIGNAL(finished()), this, SLOT(onfinished()));
-	connect(decoder, SIGNAL(error(QAudioDecoder::Error)), this, SLOT(onerror(QAudioDecoder::Error)));
-}
-
 void
 TDSAudioDecoder::onbufferready()
 {
@@ -65,6 +56,15 @@ void
 TDSAudioDecoder::onerror(QAudioDecoder::Error)
 {
 	error(decoder->errorString());
+}
+
+TDSAudioDecoder::TDSAudioDecoder(QObject *parent)
+	: QObject(parent)
+	, decoder(new QAudioDecoder(this))
+{
+	connect(decoder, SIGNAL(bufferReady()), this, SLOT(onbufferready()));
+	connect(decoder, SIGNAL(finished()), this, SLOT(onfinished()));
+	connect(decoder, SIGNAL(error(QAudioDecoder::Error)), this, SLOT(onerror(QAudioDecoder::Error)));
 }
 
 bool

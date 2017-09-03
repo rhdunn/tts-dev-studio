@@ -19,13 +19,38 @@
 #define AUDIO_TDSWAVEFORMVIEW_HPP
 
 #include <QWidget>
+#include <QAudioBuffer>
 
+/**
+ * The @c TDSWaveformView class visualizes an audio waveform.
+ */
 class TDSWaveformView
 	: public QWidget
 {
 	Q_OBJECT;
+
+	QAudioBuffer buffer;
 public:
-	explicit TDSWaveformView(QWidget *parent = nullptr);
+	TDSWaveformView(const TDSWaveformView &) = delete;
+	TDSWaveformView &operator=(const TDSWaveformView &) = delete;
+
+	/**
+	 * Construct a @c TDSWaveformView instance parented to @p parent.
+	 */
+	explicit
+	TDSWaveformView(QWidget *parent = nullptr);
+
+	/**
+	 * Sets the audio buffer being visualized to @p buffer.
+	 */
+	void
+	setAudioBuffer(const QAudioBuffer &buffer);
+
+	/**
+	 * Returns the audio buffer being visualized.
+	 */
+	QAudioBuffer
+	audioBuffer() const;
 };
 
 #endif

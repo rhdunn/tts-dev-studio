@@ -27,7 +27,7 @@ main(int argc,
 	QCoreApplication::setApplicationName("TTS Developer Studio");
 	QCoreApplication::setApplicationVersion("1.0");
 
-	TtsDevStudioWindow window;
+	TtsDevStudioWindow window(app.arguments());
 	window.show();
 	return app.exec();
 }
