@@ -35,19 +35,33 @@ TDSWaveformView::paintS16(QPaintEvent *event)
 	const auto *frames = buffer.constData<QAudioBuffer::S16S>();
 	int frameCount = buffer.frameCount();
 
-	painter.scale((float)event->rect().width() / (frameCount / 2), 1);
+	painter.scale((float)event->rect().width() / (frameCount / 2 / window_size), 1);
+
+	short upper = std::numeric_limits<short>::min();
+	short lower = std::numeric_limits<short>::max();
 
 	int midpoint = event->rect().height() / 2;
-	for (int frame = 0; frame != frameCount; ++frame) {
-		float value = ((float)std::abs(frames->left) / 32768.0f);
+	for (int frame = 0, x = 0; frame != frameCount; ++frame) {
+		upper = std::max(upper, frames->left);
+		lower = std::min(lower, frames->left);
 		++frames;
 
-		painter.drawLine(frame, (int)(midpoint - (value * midpoint)), frame, (int)(midpoint + (value * midpoint)));
+		if (frame % window_size != 0)
+			continue;
+
+		painter.drawLine(
+			x, (int)(midpoint - ((float)std::abs(upper) / 32768 * midpoint)),
+			x, (int)(midpoint + ((float)std::abs(lower) / 32768 * midpoint)));
+
+		upper = std::numeric_limits<short>::min();
+		lower = std::numeric_limits<short>::max();
+		++x;
 	}
 }
 
 TDSWaveformView::TDSWaveformView(QWidget *parent)
 	: QWidget(parent)
+	, window_size(16)
 {
 	setAutoFillBackground(true);
 }
@@ -75,4 +89,17 @@ QAudioBuffer
 TDSWaveformView::audioBuffer() const
 {
 	return buffer;
+}
+
+void
+TDSWaveformView::setWindowSize(int windowSize)
+{
+	window_size = windowSize;
+	update();
+}
+
+int
+TDSWaveformView::windowSize() const
+{
+	return window_size;
 }

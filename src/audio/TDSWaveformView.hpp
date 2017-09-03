@@ -37,6 +37,7 @@ private:
 
 	QAudioBuffer buffer;
 	decltype(&TDSWaveformView::paintEvent) painter;
+	int window_size;
 public:
 	TDSWaveformView(const TDSWaveformView &) = delete;
 	TDSWaveformView &operator=(const TDSWaveformView &) = delete;
@@ -60,6 +61,24 @@ public:
 	 */
 	QAudioBuffer
 	audioBuffer() const;
+
+	/**
+	 * Sets the window size of the waveform to @p windowSize.
+	 *
+	 * This is the number of samples for each line in the waveform graph.
+	 */
+	void
+	setWindowSize(int windowSize);
+
+	/**
+	 * Returns the window size of the waveform.
+	 *
+	 * This is the number of samples for each line in the waveform graph.
+	 *
+	 * The default window size is 16.
+	 */
+	int
+	windowSize() const;
 };
 
 #endif
