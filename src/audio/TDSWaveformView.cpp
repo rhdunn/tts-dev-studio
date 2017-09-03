@@ -17,16 +17,58 @@
 
 #include "TDSWaveformView.hpp"
 
+#include <QPainter>
+#include <QPaintEvent>
+
+void
+TDSWaveformView::paintEvent(QPaintEvent *event)
+{
+	if (painter == nullptr) return;
+	(this->*painter)(event);
+}
+
+void
+TDSWaveformView::paintS16(QPaintEvent *event)
+{
+	QPainter painter(this);
+
+	const auto *frames = buffer.constData<QAudioBuffer::S16S>();
+	int frameCount = buffer.frameCount();
+
+	painter.scale((float)event->rect().width() / (frameCount / 2), 1);
+
+	int midpoint = event->rect().height() / 2;
+	for (int frame = 0; frame != frameCount; ++frame) {
+		float value = ((float)std::abs(frames->left) / 32768.0f);
+		++frames;
+
+		painter.drawLine(frame, (int)(midpoint - (value * midpoint)), frame, (int)(midpoint + (value * midpoint)));
+	}
+}
+
 TDSWaveformView::TDSWaveformView(QWidget *parent)
 	: QWidget(parent)
 {
 	setAutoFillBackground(true);
 }
 
-void
+bool
 TDSWaveformView::setAudioBuffer(const QAudioBuffer &buffer)
 {
+	QAudioFormat::SampleType type = buffer.format().sampleType();
+	int size = buffer.format().sampleSize();
+
+	if (type == QAudioFormat::SampleType::SignedInt && size == 16) {
+		painter = &TDSWaveformView::paintS16;
+	} else {
+		painter = nullptr;
+		this->buffer = QAudioBuffer();
+		return false;
+	}
+
 	this->buffer = buffer;
+	update();
+	return true;
 }
 
 QAudioBuffer

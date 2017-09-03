@@ -28,8 +28,15 @@ class TDSWaveformView
 	: public QWidget
 {
 	Q_OBJECT;
+private:
+	void
+	paintEvent(QPaintEvent *event) override;
+
+	void
+	paintS16(QPaintEvent *event);
 
 	QAudioBuffer buffer;
+	decltype(&TDSWaveformView::paintEvent) painter;
 public:
 	TDSWaveformView(const TDSWaveformView &) = delete;
 	TDSWaveformView &operator=(const TDSWaveformView &) = delete;
@@ -42,8 +49,10 @@ public:
 
 	/**
 	 * Sets the audio buffer being visualized to @p buffer.
+	 *
+	 * Returns @c true if the audio buffer can be visualized, or @c false if it cannot.
 	 */
-	void
+	bool
 	setAudioBuffer(const QAudioBuffer &buffer);
 
 	/**
