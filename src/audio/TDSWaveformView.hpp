@@ -35,6 +35,9 @@ private:
 	void
 	paintS16(QPaintEvent *event);
 
+	void
+	paintF32(QPaintEvent *event);
+
 	QAudioBuffer buffer;
 	decltype(&TDSWaveformView::paintEvent) painter;
 	int window_size;

@@ -20,6 +20,39 @@
 #include <QPainter>
 #include <QPaintEvent>
 
+#include <cmath>
+
+template <typename T> float sample_to_float(T value);
+template <> float sample_to_float(signed short value) { return (float)value / 32768; }
+template <> float sample_to_float(float value) { return value; }
+
+template <typename T> void
+draw_frames(QPainter &painter, const T *frames, int frameCount, int windowSize, int width, int height)
+{
+	painter.scale((float)width / (frameCount / 2 / windowSize), 1);
+
+	decltype(frames->left) upper = std::numeric_limits<decltype(frames->left)>::min();
+	decltype(frames->left) lower = std::numeric_limits<decltype(frames->left)>::max();
+
+	int midpoint = height / 2;
+	for (int frame = 0, x = 0; frame != frameCount; ++frame) {
+		upper = std::max(upper, frames->left);
+		lower = std::min(lower, frames->left);
+		++frames;
+
+		if (frame % windowSize != 0)
+			continue;
+
+		painter.drawLine(
+			x, (int)(midpoint - (std::abs(sample_to_float(upper)) * midpoint)),
+			x, (int)(midpoint + (std::abs(sample_to_float(lower)) * midpoint)));
+
+		upper = std::numeric_limits<decltype(frames->left)>::min();
+		lower = std::numeric_limits<decltype(frames->left)>::max();
+		++x;
+	}
+}
+
 void
 TDSWaveformView::paintEvent(QPaintEvent *event)
 {
@@ -31,32 +64,14 @@ void
 TDSWaveformView::paintS16(QPaintEvent *event)
 {
 	QPainter painter(this);
+	draw_frames(painter, buffer.constData<QAudioBuffer::S16S>(), buffer.frameCount(), window_size, event->rect().width(), event->rect().height());
+}
 
-	const auto *frames = buffer.constData<QAudioBuffer::S16S>();
-	int frameCount = buffer.frameCount();
-
-	painter.scale((float)event->rect().width() / (frameCount / 2 / window_size), 1);
-
-	short upper = std::numeric_limits<short>::min();
-	short lower = std::numeric_limits<short>::max();
-
-	int midpoint = event->rect().height() / 2;
-	for (int frame = 0, x = 0; frame != frameCount; ++frame) {
-		upper = std::max(upper, frames->left);
-		lower = std::min(lower, frames->left);
-		++frames;
-
-		if (frame % window_size != 0)
-			continue;
-
-		painter.drawLine(
-			x, (int)(midpoint - ((float)std::abs(upper) / 32768 * midpoint)),
-			x, (int)(midpoint + ((float)std::abs(lower) / 32768 * midpoint)));
-
-		upper = std::numeric_limits<short>::min();
-		lower = std::numeric_limits<short>::max();
-		++x;
-	}
+void
+TDSWaveformView::paintF32(QPaintEvent *event)
+{
+	QPainter painter(this);
+	draw_frames(painter, buffer.constData<QAudioBuffer::S32F>(), buffer.frameCount(), window_size, event->rect().width(), event->rect().height());
 }
 
 TDSWaveformView::TDSWaveformView(QWidget *parent)
@@ -74,6 +89,8 @@ TDSWaveformView::setAudioBuffer(const QAudioBuffer &buffer)
 
 	if (type == QAudioFormat::SampleType::SignedInt && size == 16) {
 		painter = &TDSWaveformView::paintS16;
+	} else if (type == QAudioFormat::SampleType::Float && size == 32) {
+		painter = &TDSWaveformView::paintF32;
 	} else {
 		painter = nullptr;
 		this->buffer = QAudioBuffer();
