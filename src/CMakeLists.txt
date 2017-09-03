@@ -1,4 +1,5 @@
 add_executable(tts-dev-studio
+	"audio/TDSAudioDecoder.cpp"
 	"audio/TDSWaveformView.cpp"
 	"TtsDevStudioWindow.cpp"
 	"main.cpp")
